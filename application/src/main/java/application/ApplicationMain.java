@@ -11,9 +11,9 @@ import java.util.stream.IntStream;
 
 public class ApplicationMain
 {
-    private final static ProductFactory productFactory = new ProductFactory();
-    private final static OrderRepository orderRepository = new OrderRepository();
-    private final static AsyncExecutor asyncExecutory = new AsyncExecutor();
+    private final static ProductFactory PRODUCT_FACTORY = new ProductFactory();
+    private final static OrderRepository ORDER_REPOSITORY = new OrderRepository();
+    private final static AsyncExecutor ASYNC_EXECUTOR = new AsyncExecutor();
 
     public static void main(final String[] args)
     {
@@ -21,21 +21,22 @@ public class ApplicationMain
         IntStream.range(0, 100)
                 .mapToObj(number -> {
                     final var product = isEven(number)
-                            ? productFactory.createElectronics()
-                            : productFactory.createClothingArticle();
+                            ? PRODUCT_FACTORY.createElectronics()
+                            : PRODUCT_FACTORY.createClothingArticle();
 
                     return Order.builder()
                             .id(Integer.toString(number))
                             .product(product)
                             .build();
-                }).forEach(orderRepository::saveOrder);
+                }).forEach(ORDER_REPOSITORY::saveOrder);
 
         // Process all orders asynchronously.
-        orderRepository.findAllProducts()
+        ORDER_REPOSITORY.findAllProducts()
                 .stream()
                 .map(OrderProcessor::new)
-                .forEach(orderProcessor -> asyncExecutory.execute(orderProcessor::processOrder));
+                .forEach(orderProcessor -> ASYNC_EXECUTOR.execute(orderProcessor::processOrder));
 
+        ASYNC_EXECUTOR.stop();
     }
 
     private static boolean isEven(final int i)
