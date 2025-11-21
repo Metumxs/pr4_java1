@@ -1,5 +1,6 @@
 package factory;
 
+
 import com.github.javafaker.Faker;
 import products.ClothingArticle;
 import products.Electronics;
