@@ -18,8 +18,11 @@ public class ApplicationMain
 
     public static void main(final String[] args)
     {
-        // Iterate 100 times to create orders with different products.
-        IntStream.range(0, 100)
+        long startMainTime = System.currentTimeMillis();
+        final int ORDERS_COUNT = 100;
+
+        // Iterate ORDERS_COUNT times to create orders with different products.
+        IntStream.range(0, ORDERS_COUNT)
                 .mapToObj(number -> {
                     final var product = isEven(number)
                             ? PRODUCT_FACTORY.createElectronics()
@@ -38,6 +41,10 @@ public class ApplicationMain
                 .forEach(orderProcessor -> ASYNC_EXECUTOR.execute(orderProcessor::processOrder));
 
         ASYNC_EXECUTOR.stop();
+
+        long endMainTime = System.currentTimeMillis();
+        System.out.println("\n=======================================");
+        System.out.println("All orders were processed in: " + (endMainTime - startMainTime) + " ms");
     }
 
     private static boolean isEven(final int i)
