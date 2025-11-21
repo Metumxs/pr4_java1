@@ -8,15 +8,15 @@ import java.util.concurrent.TimeUnit;
 
 public class AsyncExecutor
 {
-    private static final int THREAD_POOL_SIZE = 100;
-    //private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors();
+    //private static final int THREAD_POOL_SIZE = 25000;
+    private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors();
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
     public void execute(final Runnable task)
     {
         executorService.submit(() -> {
-            System.out.println("Processing in thread: " + Thread.currentThread().getName());
+            System.out.println("+++ Processing in thread: " + Thread.currentThread().getName());
             try
             {
                 task.run();
@@ -30,22 +30,19 @@ public class AsyncExecutor
 
     public void stop()
     {
-        // 1. Перестаємо приймати нові задачі
         executorService.shutdown();
         try
         {
-            // 2. Блокуємо головний потік і чекаємо, поки всі працівники закінчать
-            // Чекаємо максимум 60 секунд.
+            // Waiting for 60s max, until tasks are completed (blocking main thread)
             if (!executorService.awaitTermination(60, TimeUnit.SECONDS))
             {
-                // Якщо не встигли за 60 сек — примусово зупиняємо
                 System.err.println("Tasks took too long, forcing shutdown...");
                 executorService.shutdownNow();
             }
         }
         catch (InterruptedException e)
         {
-            // Якщо хтось перервав очікування
+            // If awaiting was interrupted
             executorService.shutdownNow();
             Thread.currentThread().interrupt();
         }

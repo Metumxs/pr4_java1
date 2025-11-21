@@ -11,9 +11,9 @@ public class OrderRepository
 {
     private final ConcurrentHashMap<String, Order<?>> storage = new ConcurrentHashMap<>();
 
-    public void saveOrder(Order<?> product)
+    public void saveOrder(Order<?> order)
     {
-        storage.put(product.getId(), product);
+        storage.put(order.getId(), order);
     }
 
     public Order<?> findProductById(String id)

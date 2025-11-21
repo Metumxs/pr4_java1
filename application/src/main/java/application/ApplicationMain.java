@@ -34,7 +34,7 @@ public class ApplicationMain
                             .build();
                 }).forEach(ORDER_REPOSITORY::saveOrder);
 
-        // Process all orders asynchronously.
+        // Processing all orders asynchronously.
         ORDER_REPOSITORY.findAllProducts()
                 .stream()
                 .map(OrderProcessor::new)
