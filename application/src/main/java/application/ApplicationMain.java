@@ -25,8 +25,8 @@ public class ApplicationMain
         IntStream.range(0, ORDERS_COUNT)
                 .mapToObj(number -> {
                     final var product = isEven(number)
-                            ? PRODUCT_FACTORY.createElectronics()
-                            : PRODUCT_FACTORY.createClothingArticle();
+                            ? PRODUCT_FACTORY.createRandomElectronics()
+                            : PRODUCT_FACTORY.createRandomClothingArticle();
 
                     return Order.builder()
                             .id(Integer.toString(number))

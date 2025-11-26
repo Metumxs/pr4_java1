@@ -9,20 +9,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class OrderRepository
 {
-    private final ConcurrentHashMap<String, Order<?>> storage = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Order<?>> orderStorage = new ConcurrentHashMap<>();
 
     public void saveOrder(Order<?> order)
     {
-        storage.put(order.getId(), order);
+        orderStorage.put(order.getId(), order);
     }
 
     public Order<?> findProductById(String id)
     {
-        return storage.get(id);
+        return orderStorage.get(id);
     }
 
     public Collection<Order<?>> findAllProducts()
     {
-        return storage.values();
+        return orderStorage.values();
     }
 }

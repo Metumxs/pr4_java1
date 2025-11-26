@@ -10,7 +10,7 @@ public class ProductFactory
 {
     private final Faker faker = new Faker();
 
-    public ClothingArticle createClothingArticle()
+    public ClothingArticle createRandomClothingArticle()
     {
         return ClothingArticle.builder()
                 .id(faker.idNumber().valid() + "-clothing-article")
@@ -21,7 +21,7 @@ public class ProductFactory
                 .build();
     }
 
-    public Electronics createElectronics()
+    public Electronics createRandomElectronics()
     {
         return Electronics.builder()
                 .id(faker.idNumber().valid() + "-electronics")
